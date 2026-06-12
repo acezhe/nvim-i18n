@@ -8,7 +8,7 @@ Neovim UI 国际化框架 ─ 为 Neovim 插件提供多语言支持。
 
 ```lua
 {
-  "zhangzhe/nvim-i18n",
+  "acezhe/nvim-i18n",
   lazy = false, -- 不延迟加载，确保其他插件 require 时可用
   config = function()
     require("nvim-i18n").setup({
