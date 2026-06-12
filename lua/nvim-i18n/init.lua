@@ -22,7 +22,8 @@ function M.setup(opts)
   -- 暴露当前 locale 为全局变量，方便 which-key function-valued group 等场景使用
   vim.g.i18n_locale = M._locale
 
-  -- 创建 :I18nLocale 用户命令
+  -- 创建 :I18nLocale 用户命令（先删除已有命令，避免重复 setup 时报错）
+  pcall(vim.api.nvim_del_user_command, "I18nLocale")
   vim.api.nvim_create_user_command("I18nLocale", function(cmd)
     M.set_locale(cmd.args)
   end, {
@@ -45,6 +46,8 @@ end
 ---@param namespace string 命名空间（如 "java"、"lazyvim"）
 ---@param translations table<string, table<string, string>> 翻译表 { en = { key = "value" }, zh = { key = "值" } }
 function M.register(namespace, translations)
+  assert(type(namespace) == "string" and #namespace > 0, "namespace must be a non-empty string")
+  assert(type(translations) == "table", "translations must be a table")
   M._translations[namespace] = translations
 end
 
